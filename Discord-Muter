@@ -10,9 +10,12 @@ TRIG_PIN = board.GP4
 ECHO_PIN = board.GP5
 # Led pins
 led_pin = board.GP7  # Change this to the GPIO pin you connected the LED to
+led_pin1 = board.GP11
 
 led = digitalio.DigitalInOut(led_pin)
 led.direction = digitalio.Direction.OUTPUT
+led1 = digitalio.DigitalInOut(led_pin1)
+led1.direction = digitalio.Direction.OUTPUT
 # Distance threshold for hand detection (in centimeters)
 HAND_DISTANCE_THRESHOLD = 10
 
@@ -34,7 +37,7 @@ def send_key_press(keycodes):
 def measure_distance():
     # Send trigger pulse
     trig.value = True
-    time.sleep(0.2)
+    time.sleep(0.1)
     trig.value = False
     
     # Measure pulse duration of echo signal
@@ -65,10 +68,14 @@ while True:
     if distance is not None:
         if distance < HAND_DISTANCE_THRESHOLD:
             send_key_press([Keycode.CONTROL, Keycode.ALT, Keycode.SHIFT, Keycode.M]) #change this to what keybind you want
-            led.value = True  # LED ON
+            led.value = True
+            led1.value = True# LED ON
+            
 
         else:
-            led.value = False  # LED OFF
+            led.value = False
+            led1.value = False# LED OFF
     
+
 
 
