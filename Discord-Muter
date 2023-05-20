@@ -8,6 +8,7 @@ from adafruit_hid.keycode import Keycode
 # Ultrasonic sensor pins
 TRIG_PIN = board.GP4
 ECHO_PIN = board.GP5
+# Led pins
 led_pin = board.GP7  # Change this to the GPIO pin you connected the LED to
 
 led = digitalio.DigitalInOut(led_pin)
