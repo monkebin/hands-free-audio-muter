@@ -68,13 +68,15 @@ while True:
         if distance < HAND_DISTANCE_THRESHOLD:
             send_key_press([Keycode.CONTROL, Keycode.ALT, Keycode.SHIFT, Keycode.M]) #change this to what keybind you want
             led.value = True
-            led1.value = True# LED ON
+
             
 
         else:
             led.value = False
-            led1.value = False# LED OFF
+
     
+
+
 
 
 
