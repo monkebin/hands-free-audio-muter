@@ -62,7 +62,6 @@ def measure_distance():
 
 while True:
     distance = measure_distance()
-    print(distance)
     current_time = time.monotonic()
     
     if distance is not None:
@@ -76,6 +75,4 @@ while True:
             led.value = False
             led1.value = False# LED OFF
     
-
-
 
