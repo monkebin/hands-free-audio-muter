@@ -10,12 +10,12 @@ TRIG_PIN = board.GP4
 ECHO_PIN = board.GP5
 # Led pins
 led_pin = board.GP7  # Change this to the GPIO pin you connected the LED to
-led_pin1 = board.GP11
+
 
 led = digitalio.DigitalInOut(led_pin)
 led.direction = digitalio.Direction.OUTPUT
-led1 = digitalio.DigitalInOut(led_pin1)
-led1.direction = digitalio.Direction.OUTPUT
+
+
 # Distance threshold for hand detection (in centimeters)
 HAND_DISTANCE_THRESHOLD = 10
 
@@ -74,5 +74,9 @@ while True:
         else:
             led.value = False
             led1.value = False# LED OFF
+    
+
+
+
     
 
