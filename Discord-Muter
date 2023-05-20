@@ -14,7 +14,7 @@ led_pin = board.GP7  # Change this to the GPIO pin you connected the LED to
 led = digitalio.DigitalInOut(led_pin)
 led.direction = digitalio.Direction.OUTPUT
 # Distance threshold for hand detection (in centimeters)
-HAND_DISTANCE_THRESHOLD = 30
+HAND_DISTANCE_THRESHOLD = 10
 
 # Initialize ultrasonic sensor pins
 trig = digitalio.DigitalInOut(TRIG_PIN)
@@ -34,7 +34,7 @@ def send_key_press(keycodes):
 def measure_distance():
     # Send trigger pulse
     trig.value = True
-    time.sleep(0.00001)
+    time.sleep(0.2)
     trig.value = False
     
     # Measure pulse duration of echo signal
@@ -55,12 +55,21 @@ def measure_distance():
     
     return distance
 
+
+
 while True:
     distance = measure_distance()
+    print(distance)
+    current_time = time.monotonic()
+    
     if distance is not None:
         if distance < HAND_DISTANCE_THRESHOLD:
             send_key_press([Keycode.CONTROL, Keycode.ALT, Keycode.SHIFT, Keycode.M])
             led.value = True  # LED ON
-            time.sleep(0.5)  # Delay for 0.5 seconds
+
+        else:
             led.value = False  # LED OFF
-    time.sleep(0.1)
+    
+
+
+
