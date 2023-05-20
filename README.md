@@ -1,2 +1,2 @@
-# streamdeckplus
-idk trying to make a streamdeck with raspberry pi pico.
+
+Mute yourself in apps with just a swipe of your hand
