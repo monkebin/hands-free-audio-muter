@@ -29,7 +29,7 @@ def send_key_press(keycodes):
     # Send a key press event
     keyboard.press(*keycodes)
     keyboard.release_all()
-    time.sleep(0.1)  # Optional delay to prevent rapid key presses
+    time.sleep(0.5)  # Optional delay to prevent rapid key presses
 
 def measure_distance():
     # Send trigger pulse
@@ -64,12 +64,11 @@ while True:
     
     if distance is not None:
         if distance < HAND_DISTANCE_THRESHOLD:
-            send_key_press([Keycode.CONTROL, Keycode.ALT, Keycode.SHIFT, Keycode.M])
+            send_key_press([Keycode.CONTROL, Keycode.ALT, Keycode.SHIFT, Keycode.M]) #change this to what keybind you want
             led.value = True  # LED ON
 
         else:
             led.value = False  # LED OFF
     
-
 
 
