@@ -1,0 +1,65 @@
+import time
+import board
+import digitalio
+import usb_hid
+from adafruit_hid.keyboard import Keyboard
+from adafruit_hid.keycode import Keycode
+
+# Ultrasonic sensor pins
+TRIG_PIN = board.GP4
+ECHO_PIN = board.GP5
+led_pin = board.GP7  # Change this to the GPIO pin you connected the LED to
+
+led = digitalio.DigitalInOut(led_pin)
+led.direction = digitalio.Direction.OUTPUT
+# Distance threshold for hand detection (in centimeters)
+HAND_DISTANCE_THRESHOLD = 30
+
+# Initialize ultrasonic sensor pins
+trig = digitalio.DigitalInOut(TRIG_PIN)
+trig.direction = digitalio.Direction.OUTPUT
+echo = digitalio.DigitalInOut(ECHO_PIN)
+echo.direction = digitalio.Direction.INPUT
+
+# Create a Keyboard object
+keyboard = Keyboard(usb_hid.devices)
+
+def send_key_press(keycodes):
+    # Send a key press event
+    keyboard.press(*keycodes)
+    keyboard.release_all()
+    time.sleep(0.1)  # Optional delay to prevent rapid key presses
+
+def measure_distance():
+    # Send trigger pulse
+    trig.value = True
+    time.sleep(0.00001)
+    trig.value = False
+    
+    # Measure pulse duration of echo signal
+    pulse_start = time.monotonic()
+    pulse_end = time.monotonic()
+    
+    while echo.value == False:
+        pulse_start = time.monotonic()
+        
+    while echo.value == True:
+        pulse_end = time.monotonic()
+        
+    pulse_duration = pulse_end - pulse_start
+    
+    # Calculate distance from pulse duration
+    speed_of_sound = 34300  # Speed of sound in cm/s
+    distance = (pulse_duration * speed_of_sound) / 2
+    
+    return distance
+
+while True:
+    distance = measure_distance()
+    if distance is not None:
+        if distance < HAND_DISTANCE_THRESHOLD:
+            send_key_press([Keycode.CONTROL, Keycode.ALT, Keycode.SHIFT, Keycode.M])
+            led.value = True  # LED ON
+            time.sleep(0.5)  # Delay for 0.5 seconds
+            led.value = False  # LED OFF
+    time.sleep(0.1)
